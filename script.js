@@ -29,4 +29,28 @@ document.addEventListener('DOMContentLoaded', function(){
             btn.textContent = 'Меню';
         }
     });
+
+    // Gallery scroll buttons
+    const galleryContainer = document.querySelector('.gallery-container');
+    const prevBtn = document.querySelector('.gallery-btn.prev');
+    const nextBtn = document.querySelector('.gallery-btn.next');
+
+    if(galleryContainer && prevBtn && nextBtn){
+        function updateButtons() {
+            const atStart = galleryContainer.scrollLeft <= 0;
+            const atEnd = galleryContainer.scrollLeft >= galleryContainer.scrollWidth - galleryContainer.clientWidth - 1; // small tolerance
+            prevBtn.classList.toggle('disabled', atStart);
+            nextBtn.classList.toggle('disabled', atEnd);
+        }
+
+        prevBtn.addEventListener('click', () => {
+            galleryContainer.scrollBy({left: -300, behavior: 'smooth'});
+        });
+        nextBtn.addEventListener('click', () => {
+            galleryContainer.scrollBy({left: 300, behavior: 'smooth'});
+        });
+
+        galleryContainer.addEventListener('scroll', updateButtons);
+        updateButtons(); // initial state
+    }
 });
